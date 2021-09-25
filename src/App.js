@@ -4,6 +4,7 @@ import './App.css';
 import RecipeCardForm from './components/RecipeCardForm';
 import RecipeCardsList from './components/RecipeCardsList';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -40,14 +41,19 @@ class App extends React.Component {
     render() {
         const recipes = this.state.recipes;
         return (
-            <div className="App">
-                <h1 className="display-1">recipe app</h1>
-                <RecipeCardsList
-                    deleteRecipe={this.deleteRecipe}
-                    recipes={recipes}
-                />
-                <RecipeCardForm />
-            </div>
+            <Switch>
+                <Route exact path="/new" render={() => <RecipeCardForm />} />
+                <Route
+                    exact
+                    path="/"
+                    render={() => (
+                        <RecipeCardsList
+                            deleteRecipe={this.deleteRecipe}
+                            recipes={recipes}
+                        />
+                    )}
+                ></Route>
+            </Switch>
         );
     }
 }

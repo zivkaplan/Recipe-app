@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Container,
-    Card,
-    Form,
-    FormControl,
-    FloatingLabel,
-} from 'react-bootstrap';
+import { Container, Card, Form, FloatingLabel } from 'react-bootstrap';
 
 class RecipeCardForm extends React.Component {
     constructor(props) {
