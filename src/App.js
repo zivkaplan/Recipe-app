@@ -5,6 +5,7 @@ import RecipeCardForm from './components/RecipeCardForm';
 import RecipeCardsList from './components/RecipeCardsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Route, Switch } from 'react-router-dom';
+import AppDrawer from './components/AppDrawer';
 
 class App extends React.Component {
     constructor(props) {
@@ -29,10 +30,19 @@ class App extends React.Component {
         };
 
         this.deleteRecipe = this.deleteRecipe.bind(this);
+        this.saveRecipe = this.saveRecipe.bind(this);
     }
+
     componentDidMount() {
         // get recipes from DB
     }
+
+    saveRecipe(newRecipe) {
+        this.setState({
+            recipes: [...this.state.recipes, newRecipe],
+        });
+    }
+
     deleteRecipe(id) {
         this.setState({
             recipes: this.state.recipes.filter((recipe) => recipe.id !== id),
@@ -40,14 +50,26 @@ class App extends React.Component {
     }
     render() {
         const recipes = this.state.recipes;
+        const allTags = recipes.map((recipe) => recipe.tags).flat();
+
         return (
             <Switch>
-                <Route exact path="/new" render={() => <RecipeCardForm />} />
+                <Route
+                    exact
+                    path="/new"
+                    render={() => (
+                        <div>
+                            <AppDrawer title="Add Recipe" allTags={allTags} />
+                            <RecipeCardForm saveRecipe={this.saveRecipe} />
+                        </div>
+                    )}
+                />
                 <Route
                     exact
                     path="/"
                     render={() => (
                         <div>
+                            <AppDrawer title="Add Recipe" allTags={allTags} />
                             <RecipeCardsList
                                 deleteRecipe={this.deleteRecipe}
                                 recipes={recipes}

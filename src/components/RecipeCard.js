@@ -1,6 +1,8 @@
 import React from 'react';
-import { Container, Card, Accordion, Badge } from 'react-bootstrap';
+import { Container, Card, Accordion, Badge, Button } from 'react-bootstrap';
 import './RecipeCardStyles.css';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 class RecipeCard extends React.Component {
     constructor(props) {
@@ -18,12 +20,9 @@ class RecipeCard extends React.Component {
     render() {
         const { title, url, comment, tags } = this.props;
         const clickableTags = tags.map((tag, idx) => (
-            <Badge
-                pill
-                bg="primary"
-                key={idx}
-                onClick={this.filterByTag}
-            >{`#${tag} `}</Badge>
+            <Badge pill bg="primary" key={idx} onClick={this.filterByTag}>
+                {tag}
+            </Badge>
         ));
 
         return (
@@ -57,19 +56,15 @@ class RecipeCard extends React.Component {
                                         {comment}
                                     </p>
                                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <button
-                                            className="btn btn-outline-warning me-md-2"
-                                            type="button"
-                                        >
-                                            <i className="fas fa-edit"></i>
-                                        </button>
-                                        <button
-                                            className="btn btn-outline-danger"
-                                            type="button"
+                                        <Button variant="outline-warning">
+                                            <EditIcon />
+                                        </Button>
+                                        <Button
+                                            variant="outline-danger"
                                             onClick={this.handleDelete}
                                         >
-                                            <i className="far fa-trash-alt"></i>
-                                        </button>
+                                            <DeleteIcon />
+                                        </Button>
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>

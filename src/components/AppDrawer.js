@@ -15,8 +15,9 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
-import TagIcon from '@mui/icons-material/Tag';
+import LabelIcon from '@mui/icons-material/Label';
+import AppsIcon from '@mui/icons-material/Apps';
+import { Link } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -76,7 +77,7 @@ export default function PersistentDrawerLeft(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const { allTags } = props;
+    const { allTags, title } = props;
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -92,7 +93,7 @@ export default function PersistentDrawerLeft(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        My Saved Recipes
+                        {title ? title : 'My Saved Recipes'}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -120,10 +121,19 @@ export default function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
+                    <ListItem button key="all recipes">
+                        <ListItemIcon>
+                            <AppsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="all recipes" />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List>
                     {allTags.map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>
-                                <TagIcon />
+                                <LabelIcon />
                             </ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
