@@ -1,5 +1,11 @@
 import React from 'react';
-import { Container, Card, InputGroup, FormControl } from 'react-bootstrap';
+import {
+    Container,
+    Card,
+    Form,
+    FormControl,
+    FloatingLabel,
+} from 'react-bootstrap';
 
 class RecipeCardForm extends React.Component {
     constructor(props) {
@@ -7,61 +13,58 @@ class RecipeCardForm extends React.Component {
         this.state = {};
     }
     render() {
-        // const { recipes, deleteRecipe } = this.props;
-        // const savedRecipes = recipes.map((recipe) => (
-        //     <RecipeCard
-        //         title={recipe.title}
-        //         url={recipe.url}
-        //         comment={recipe.comment}
-        //         tags={recipe.tags}
-        //         id={recipe.id}
-        //         deleteRecipe={deleteRecipe}
-        //     />
-        // ));
         return (
             <Container>
                 <Card>
                     <Card.Body>
                         <Card.Title>Add Recipe</Card.Title>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="inputGroup-sizing-default">
-                                Title
-                            </InputGroup.Text>
-                            <FormControl
-                                aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="inputGroup-sizing-default">
-                                URL
-                            </InputGroup.Text>
-                            <FormControl
-                                aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default"
-                            />
-                        </InputGroup>
-
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text>Comments</InputGroup.Text>
-                            <FormControl
-                                as="textarea"
-                                aria-label="With textarea"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="inputGroup-sizing-default">
-                                Tags
-                            </InputGroup.Text>
-                            <FormControl
-                                aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default"
-                            />
-                            <small className="text-muted">
-                                seperate your tags with space, "#" sign is added
-                                automatically
-                            </small>
-                        </InputGroup>
+                        <Form>
+                            <FloatingLabel
+                                controlId="floatingTextarea"
+                                label="Title"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Leave a comment here"
+                                />
+                            </FloatingLabel>
+                            <FloatingLabel
+                                controlId="floatingTextarea"
+                                label="URL"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Leave a comment here"
+                                />
+                            </FloatingLabel>
+                            <FloatingLabel
+                                controlId="floatingTextarea2"
+                                label="Comments"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Leave a comment here"
+                                    style={{ height: '100px' }}
+                                />
+                            </FloatingLabel>
+                            <FloatingLabel
+                                controlId="floatingTextarea"
+                                label="Tags"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Leave a comment here"
+                                />
+                                <small className="text-muted">
+                                    seperate your tags with space, "#" sign is
+                                    added automatically
+                                </small>
+                            </FloatingLabel>
+                        </Form>
                     </Card.Body>
                 </Card>
             </Container>

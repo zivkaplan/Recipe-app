@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Card, Accordion } from 'react-bootstrap';
+import { Container, Card, Accordion, Badge } from 'react-bootstrap';
 import './RecipeCardStyles.css';
 
 class RecipeCard extends React.Component {
@@ -18,7 +18,12 @@ class RecipeCard extends React.Component {
     render() {
         const { title, url, comment, tags } = this.props;
         const clickableTags = tags.map((tag, idx) => (
-            <span key={idx} onClick={this.filterByTag}>{`#${tag} `}</span>
+            <Badge
+                pill
+                bg="primary"
+                key={idx}
+                onClick={this.filterByTag}
+            >{`#${tag} `}</Badge>
         ));
 
         return (
@@ -45,7 +50,7 @@ class RecipeCard extends React.Component {
                         <h6 className="text-muted">{clickableTags}</h6>
                         <Accordion>
                             <Accordion.Item eventKey="0">
-                                <Accordion.Header>More</Accordion.Header>
+                                <Accordion.Header>Show More</Accordion.Header>
                                 <Accordion.Body>
                                     <p>
                                         <strong>My Comments: </strong>
