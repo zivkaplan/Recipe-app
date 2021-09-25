@@ -1,6 +1,11 @@
 import React from 'react';
 import RecipeCard from './RecipeCard';
 
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import { Link } from '@mui/material/';
+import Drawer from './Drawer';
+
 class RecipeCardsList extends React.Component {
     constructor(props) {
         super(props);
@@ -8,6 +13,7 @@ class RecipeCardsList extends React.Component {
     }
     render() {
         const { recipes, deleteRecipe } = this.props;
+        const allTags = recipes.map((recipe) => recipe.tags).flat();
         const savedRecipes = recipes.map((recipe) => (
             <RecipeCard
                 title={recipe.title}
@@ -19,7 +25,25 @@ class RecipeCardsList extends React.Component {
                 deleteRecipe={deleteRecipe}
             />
         ));
-        return <div>{savedRecipes}</div>;
+        return (
+            <div>
+                <Drawer allTags={allTags} />
+                {savedRecipes}
+                <Link href="/new" underline="none">
+                    <Fab
+                        style={{
+                            position: 'fixed',
+                            bottom: 'min(10vh, 10vw)',
+                            right: 'min(10vh, 10vw)',
+                        }}
+                        color="primary"
+                        aria-label="add"
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Link>
+            </div>
+        );
     }
 }
 

@@ -47,10 +47,12 @@ class App extends React.Component {
                     exact
                     path="/"
                     render={() => (
-                        <RecipeCardsList
-                            deleteRecipe={this.deleteRecipe}
-                            recipes={recipes}
-                        />
+                        <div>
+                            <RecipeCardsList
+                                deleteRecipe={this.deleteRecipe}
+                                recipes={recipes}
+                            />
+                        </div>
                     )}
                 ></Route>
             </Switch>
