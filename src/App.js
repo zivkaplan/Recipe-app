@@ -56,7 +56,7 @@ class App extends React.Component {
     saveRecipe(newRecipe) {
         this.setState({
             recipes: [...this.state.recipes, newRecipe],
-            RecipeFormOpen: false,
+            recipeFormOpen: false,
         });
     }
 
