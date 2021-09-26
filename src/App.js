@@ -81,6 +81,7 @@ class App extends React.Component {
             <RecipeCardsList
                 openRecipeForm={this.openRecipeForm}
                 deleteRecipe={this.deleteRecipe}
+                filterSearch={this.filterSearch}
                 recipes={filteredRecipes()}
             />
         );
