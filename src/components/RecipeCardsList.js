@@ -1,6 +1,5 @@
 import React from 'react';
 import RecipeCard from './RecipeCard';
-
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -21,7 +20,7 @@ class RecipeCardsList extends React.Component {
                 key={recipe.id}
                 deleteRecipe={deleteRecipe}
                 difficultyLevel={recipe.difficultyLevel}
-                filterSearch={this.props.filterSearch}
+                filterByTag={this.props.filterByTag}
             />
         ));
         return (

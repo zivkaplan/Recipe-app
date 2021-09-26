@@ -17,7 +17,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LabelIcon from '@mui/icons-material/Label';
 import AppsIcon from '@mui/icons-material/Apps';
-
+import ListSubheader from '@mui/material/ListSubheader';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { grey } from '@mui/material/colors';
+import { Icon } from '@iconify/react';
+import chefHat from '@iconify/icons-mdi/chef-hat';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -79,7 +84,7 @@ export default function PersistentDrawerLeft(props) {
     const setFilterSearch = (e) => {
         const q =
             e.target.innerText === 'all recipes' ? null : e.target.innerText;
-        props.filterSearch(q);
+        props.filterByTag(q);
         setOpen(false);
     };
 
@@ -144,6 +149,45 @@ export default function PersistentDrawerLeft(props) {
                         <ListItemText primary="all recipes" />
                     </ListItem>
                 </List>
+                <Divider />
+                <ListSubheader component="div" id="filter-by-difficulty">
+                    Filter by Difficulty
+                </ListSubheader>
+                <ButtonGroup
+                    className="justify-content-between"
+                    size="large"
+                    variant="text"
+                    aria-label="outlined primary button group"
+                >
+                    <Button
+                        className="d-flex w-100 justify-content-center mx-auto px-0"
+                        key="difficulty-1"
+                        onClick={setFilterSearch}
+                        style={{ borderColor: '#C6C6C6' }}
+                    >
+                        <Icon icon={chefHat} color="gold" />
+                    </Button>
+                    <Button
+                        style={{ borderColor: '#C6C6C6' }}
+                        className="d-flex w-100 justify-content-center mx-auto px-0"
+                        key="difficulty-2"
+                        onClick={setFilterSearch}
+                    >
+                        <Icon icon={chefHat} color="gold" />
+                        <Icon icon={chefHat} color="gold" />
+                    </Button>
+                    <Button
+                        className="d-flex w-100 justify-content-center mx-auto px-0"
+                        key="difficulty-3"
+                        style={{ borderColor: '#C6C6C6' }}
+                        onClick={setFilterSearch}
+                    >
+                        <Icon icon={chefHat} color="gold" />
+                        <Icon icon={chefHat} color="gold" />
+                        <Icon icon={chefHat} color="gold" />
+                    </Button>
+                </ButtonGroup>
+
                 <Divider />
                 <List>
                     {allTags.map((text, index) => (

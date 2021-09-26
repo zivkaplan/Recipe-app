@@ -35,14 +35,14 @@ class App extends React.Component {
         this.openRecipeForm = this.openRecipeForm.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.saveRecipe = this.saveRecipe.bind(this);
-        this.filterSearch = this.filterSearch.bind(this);
+        this.filterByTag = this.filterByTag.bind(this);
     }
 
     componentDidMount() {
         // get recipes from DB
     }
 
-    filterSearch(filter) {
+    filterByTag(filter) {
         if (this.state.recipeFormOpen) {
             this.setState({ recipeFormOpen: false });
         }
@@ -81,7 +81,7 @@ class App extends React.Component {
             <RecipeCardsList
                 openRecipeForm={this.openRecipeForm}
                 deleteRecipe={this.deleteRecipe}
-                filterSearch={this.filterSearch}
+                filterByTag={this.filterByTag}
                 recipes={filteredRecipes()}
             />
         );
@@ -90,7 +90,7 @@ class App extends React.Component {
                 <AppDrawer
                     filteredTag={filter}
                     recipeFormOpen={recipeFormOpen}
-                    filterSearch={this.filterSearch}
+                    filterByTag={this.filterByTag}
                     allTags={allTags}
                 />
                 {mainPage}

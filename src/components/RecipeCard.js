@@ -16,7 +16,7 @@ class RecipeCard extends React.Component {
     }
     filterByTag(e) {
         const q = e.target.innerText;
-        this.props.filterSearch(q);
+        this.props.filterByTag(q);
     }
 
     handleDelete() {
@@ -34,11 +34,6 @@ class RecipeCard extends React.Component {
         return (
             <Container>
                 <Card className="mb-3">
-                    <Card.Img
-                        variant="top"
-                        src="https://source.unsplash.com/1600x900/?food,meal,lunch.jpg"
-                        alt="sample food"
-                    />
                     <Card.Body>
                         <div className="d-flex justify-content-between">
                             <Card.Title>
