@@ -1,49 +1,64 @@
 import React from 'react';
-import {
-    Container,
-    Badge,
-    Card,
-    Form,
-    FloatingLabel,
-    Button,
-    Row,
-    Col,
-} from 'react-bootstrap';
+import { Container, Badge, Card, Form, Button } from 'react-bootstrap';
 import SaveIcon from '@mui/icons-material/Save';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-
+import TextField from '@mui/material/TextField';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import InputAdornment from '@mui/material/InputAdornment';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+
+import { Icon } from '@iconify/react';
+import chefHat from '@iconify/icons-mdi/chef-hat';
+
 class RecipeCardForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            URL: '',
-            comment: '',
-            tags: ['a', 'asdfsaf'],
+            title: this.props.title || '',
+            url: this.props.url || '',
+            comment: this.props.comment || '',
+            tags: this.props.tags || [],
+            newTag: '',
+            difficultyLevel: 0,
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSave = this.handleSave.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.addTag = this.addTag.bind(this);
+        this.deleteTag = this.deleteTag.bind(this);
     }
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
-    handleSave() {
-        this.props.saveRecipe(this.state);
+    handleSubmit(e) {
+        const { title, url, comment, tags } = this.state;
+        if (!title) return;
+        const newRecipe = { title, url, comment, tags };
+        this.props.saveRecipe(newRecipe);
+        this.props.history.push('/');
     }
     addTag(e) {
-        const newTag = e.target.value;
-        this.setState({ tags: this.state.tags.push(newTag) });
+        this.setState({
+            tags: [...this.state.tags, this.state.newTag],
+            newTag: '',
+        });
     }
+    deleteTag(e) {
+        this.setState({
+            tags: [
+                ...this.state.tags.filter(
+                    (tag, i) => i !== parseInt(e.target.id)
+                ),
+            ],
+        });
+    }
+
     render() {
-        const { title, URL, comment, tags } = this.state;
-        const renderedTags = tags.map((tag) => (
-            <ListItem>
-                <Badge pill bg="dark">
-                    {tag}
-                </Badge>
-            </ListItem>
+        const { title, url, comment, tags, newTag, difficultyLevel } =
+            this.state;
+        const renderedTags = tags.map((tag, idx) => (
+            <Badge pill bg="dark" key={idx} id={idx} onClick={this.deleteTag}>
+                {tag}
+            </Badge>
         ));
         return (
             <div>
@@ -51,72 +66,84 @@ class RecipeCardForm extends React.Component {
                     <Card>
                         <Card.Body>
                             <Card.Title>Add Recipe</Card.Title>
-                            <Form>
-                                <FloatingLabel
-                                    controlId="floatingTextarea"
+                            <Form onSubmit={this.handleSubmit}>
+                                <TextField
+                                    className="mb-3"
+                                    fullWidth
+                                    variant="filled"
                                     label="Title"
+                                    onChange={this.handleChange}
+                                    value={title}
+                                />
+                                <TextField
                                     className="mb-3"
-                                >
-                                    <Form.Control
-                                        as="textarea"
-                                        placeholder="Leave a comment here"
-                                        name="title"
-                                        onChange={this.handleChange}
-                                    />
-                                </FloatingLabel>
-                                <FloatingLabel
-                                    controlId="floatingTextarea"
-                                    label="URL"
+                                    fullWidth
+                                    variant="filled"
+                                    label="Recipe's URL"
+                                    onChange={this.handleChange}
+                                    name="url"
+                                    value={url}
+                                />
+                                <TextField
                                     className="mb-3"
-                                >
-                                    <Form.Control
-                                        as="textarea"
-                                        placeholder="Leave a comment here"
-                                        onChange={this.handleChange}
-                                        name="URL"
-                                    />
-                                </FloatingLabel>
-                                <FloatingLabel
-                                    controlId="floatingTextarea2"
+                                    fullWidth
+                                    multiline
+                                    rows={4}
+                                    variant="filled"
                                     label="Comments"
-                                    className="mb-3"
-                                >
-                                    <Form.Control
-                                        as="textarea"
-                                        placeholder="Leave a comment here"
-                                        style={{ height: '100px' }}
-                                        onChange={this.handleChange}
-                                        name="comment"
+                                    onChange={this.handleChange}
+                                    value={comment}
+                                    name="comment"
+                                />
+                                <div className="d-flex mb-3">
+                                    <Typography component="legend">
+                                        Difficulty level:
+                                    </Typography>
+                                    <Rating
+                                        max={3}
+                                        name="simple-controlled"
+                                        value={difficultyLevel}
+                                        onChange={(e, newValue) => {
+                                            this.setState({
+                                                difficultyLevel: newValue,
+                                            });
+                                        }}
+                                        icon={
+                                            <Icon icon={chefHat} color="gold" />
+                                        }
+                                        emptyIcon={
+                                            <Icon icon={chefHat} color="gray" />
+                                        }
                                     />
-                                </FloatingLabel>
-                                <Row>
-                                    <Col>
-                                        <FloatingLabel
-                                            controlId="floatingTextarea"
-                                            label="Tags"
-                                            className="mb-3"
-                                        >
-                                            <Form.Control
-                                                as="textarea"
-                                                placeholder="Leave a comment here"
-                                            />
-                                        </FloatingLabel>
-                                    </Col>
-                                    <Col>
-                                        <Button
-                                            variant="primary"
-                                            onClick={this.addTag}
-                                        >
-                                            <AddBoxIcon />
-                                        </Button>
-                                    </Col>
-                                </Row>
-                                <List>{renderedTags}</List>
-                                <div className="d-grid gap-2">
+                                </div>
+                                <div className="mb-3 d-flex justify-content-between align-items-stretch">
+                                    <TextField
+                                        variant="filled"
+                                        sx={{ m: 1, width: '25ch' }}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    #
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        label="Tags"
+                                        onChange={this.handleChange}
+                                        name="newTag"
+                                        value={newTag}
+                                    />
                                     <Button
-                                        variant="success"
-                                        onClick={this.handleSave}
+                                        variant="primary"
+                                        onClick={this.addTag}
                                     >
+                                        <AddBoxIcon />
+                                    </Button>
+                                </div>
+                                <div className="mb-3 d-flex justify-content-start">
+                                    {renderedTags}
+                                </div>
+                                <div className="d-grid gap-2">
+                                    <Button variant="success" type="submit">
                                         <SaveIcon />
                                     </Button>
                                 </div>

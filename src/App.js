@@ -57,21 +57,29 @@ class App extends React.Component {
                 <Route
                     exact
                     path="/new"
-                    render={() => (
+                    render={(routeProps) => (
                         <div>
-                            <AppDrawer title="Add Recipe" allTags={allTags} />
-                            <RecipeCardForm saveRecipe={this.saveRecipe} />
+                            <AppDrawer
+                                title="Add Recipe"
+                                allTags={allTags}
+                                {...routeProps}
+                            />
+                            <RecipeCardForm
+                                saveRecipe={this.saveRecipe}
+                                {...routeProps}
+                            />
                         </div>
                     )}
                 />
                 <Route
                     exact
                     path="/"
-                    render={() => (
+                    render={(routeProps) => (
                         <div>
                             <AppDrawer title="Add Recipe" allTags={allTags} />
                             <RecipeCardsList
                                 deleteRecipe={this.deleteRecipe}
+                                {...routeProps}
                                 recipes={recipes}
                             />
                         </div>
