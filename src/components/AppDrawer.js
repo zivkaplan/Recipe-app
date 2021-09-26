@@ -17,7 +17,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LabelIcon from '@mui/icons-material/Label';
 import AppsIcon from '@mui/icons-material/Apps';
-import { Link } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -77,7 +76,20 @@ export default function PersistentDrawerLeft(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const { allTags, title } = props;
+    const setFilterSearch = (e) => {
+        const q =
+            e.target.innerText === 'all recipes' ? null : e.target.innerText;
+        props.filterSearch(q);
+        setOpen(false);
+    };
+
+    const { allTags, recipeFormOpen, filteredTag } = props;
+    const getTitle = () => {
+        if (recipeFormOpen) return 'Add Recipe';
+        if (filteredTag) return `#${filteredTag}`;
+        return 'My Saved Recipes';
+    };
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -93,7 +105,7 @@ export default function PersistentDrawerLeft(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        {title ? title : 'My Saved Recipes'}
+                        {getTitle()}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -121,7 +133,11 @@ export default function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem button key="all recipes">
+                    <ListItem
+                        button
+                        key="all recipes"
+                        onClick={setFilterSearch}
+                    >
                         <ListItemIcon>
                             <AppsIcon />
                         </ListItemIcon>
@@ -131,7 +147,7 @@ export default function PersistentDrawerLeft(props) {
                 <Divider />
                 <List>
                     {allTags.map((text, index) => (
-                        <ListItem button key={text}>
+                        <ListItem button key={text} onClick={setFilterSearch}>
                             <ListItemIcon>
                                 <LabelIcon />
                             </ListItemIcon>

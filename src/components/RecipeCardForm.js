@@ -6,9 +6,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import InputAdornment from '@mui/material/InputAdornment';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-
 import { Icon } from '@iconify/react';
 import chefHat from '@iconify/icons-mdi/chef-hat';
+import Alert from '@mui/material/Alert';
 
 class RecipeCardForm extends React.Component {
     constructor(props) {
@@ -20,28 +20,36 @@ class RecipeCardForm extends React.Component {
             tags: this.props.tags || [],
             newTag: '',
             difficultyLevel: 0,
+            invalidForm: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTag = this.addTag.bind(this);
         this.deleteTag = this.deleteTag.bind(this);
     }
+
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
+
     handleSubmit(e) {
+        e.preventDefault();
         const { title, url, comment, tags } = this.state;
-        if (!title) return;
+        if (!title) {
+            this.setState({ invalidForm: true });
+            return;
+        }
         const newRecipe = { title, url, comment, tags };
         this.props.saveRecipe(newRecipe);
-        this.props.history.push('/');
     }
+
     addTag(e) {
         this.setState({
             tags: [...this.state.tags, this.state.newTag],
             newTag: '',
         });
     }
+
     deleteTag(e) {
         this.setState({
             tags: [
@@ -53,8 +61,15 @@ class RecipeCardForm extends React.Component {
     }
 
     render() {
-        const { title, url, comment, tags, newTag, difficultyLevel } =
-            this.state;
+        const {
+            title,
+            url,
+            comment,
+            tags,
+            newTag,
+            difficultyLevel,
+            invalidForm,
+        } = this.state;
         const renderedTags = tags.map((tag, idx) => (
             <Badge pill bg="dark" key={idx} id={idx} onClick={this.deleteTag}>
                 {tag}
@@ -67,14 +82,21 @@ class RecipeCardForm extends React.Component {
                         <Card.Body>
                             <Card.Title>Add Recipe</Card.Title>
                             <Form onSubmit={this.handleSubmit}>
+                                {invalidForm ? (
+                                    <Alert severity="warning">
+                                        Title field cannot be empty
+                                    </Alert>
+                                ) : null}
                                 <TextField
                                     className="mb-3"
                                     fullWidth
+                                    name="title"
                                     variant="filled"
                                     label="Title"
                                     onChange={this.handleChange}
                                     value={title}
                                 />
+
                                 <TextField
                                     className="mb-3"
                                     fullWidth
@@ -116,7 +138,7 @@ class RecipeCardForm extends React.Component {
                                         }
                                     />
                                 </div>
-                                <div className="mb-3 d-flex justify-content-between align-items-stretch">
+                                <div className="mb-3 d-flex justify-content-between">
                                     <TextField
                                         variant="filled"
                                         sx={{ m: 1, width: '25ch' }}
@@ -133,7 +155,8 @@ class RecipeCardForm extends React.Component {
                                         value={newTag}
                                     />
                                     <Button
-                                        variant="primary"
+                                        style={{ margin: '8px' }}
+                                        variant="warning"
                                         onClick={this.addTag}
                                     >
                                         <AddBoxIcon />

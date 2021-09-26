@@ -3,7 +3,6 @@ import RecipeCard from './RecipeCard';
 
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from '@mui/material/';
 
 class RecipeCardsList extends React.Component {
     constructor(props) {
@@ -21,24 +20,25 @@ class RecipeCardsList extends React.Component {
                 id={recipe.id}
                 key={recipe.id}
                 deleteRecipe={deleteRecipe}
+                difficultyLevel={recipe.difficultyLevel}
             />
         ));
         return (
             <div>
                 {savedRecipes}
-                <Link href="/new" underline="none">
-                    <Fab
-                        style={{
-                            position: 'fixed',
-                            bottom: 'min(10vh, 10vw)',
-                            right: 'min(10vh, 10vw)',
-                        }}
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <AddIcon />
-                    </Fab>
-                </Link>
+
+                <Fab
+                    onClick={this.props.openRecipeForm}
+                    style={{
+                        position: 'fixed',
+                        bottom: 'min(10vh, 10vw)',
+                        right: 'min(10vh, 10vw)',
+                    }}
+                    color="primary"
+                    aria-label="add"
+                >
+                    <AddIcon />
+                </Fab>
             </div>
         );
     }

@@ -3,6 +3,7 @@ import { Container, Card, Accordion, Badge, Button } from 'react-bootstrap';
 import './RecipeCardStyles.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Rating from '@mui/material/Rating';
 
 class RecipeCard extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class RecipeCard extends React.Component {
     }
 
     render() {
-        const { title, url, comment, tags } = this.props;
+        const { title, url, comment, tags, difficultyLevel } = this.props;
         const clickableTags = tags.map((tag, idx) => (
             <Badge pill bg="primary" key={idx} onClick={this.filterByTag}>
                 {tag}
@@ -34,17 +35,25 @@ class RecipeCard extends React.Component {
                         alt="sample food"
                     />
                     <Card.Body>
-                        <Card.Title>
-                            <a
-                                style={{
-                                    color: 'inherit',
-                                    textDecoration: 'none',
-                                }}
-                                href={url}
-                            >
-                                {title}
-                            </a>
-                        </Card.Title>
+                        <div className="d-flex justify-content-between">
+                            <Card.Title>
+                                <a
+                                    style={{
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                    }}
+                                    href={url}
+                                >
+                                    {title}
+                                </a>
+                            </Card.Title>
+                            <Rating
+                                name="read-only"
+                                value={difficultyLevel}
+                                max={3}
+                                readOnly
+                            />
+                        </div>
 
                         <h6 className="text-muted">{clickableTags}</h6>
                         <Accordion>
