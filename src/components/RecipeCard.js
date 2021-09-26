@@ -4,6 +4,8 @@ import './RecipeCardStyles.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Rating from '@mui/material/Rating';
+import { Icon } from '@iconify/react';
+import chefHat from '@iconify/icons-mdi/chef-hat';
 
 class RecipeCard extends React.Component {
     constructor(props) {
@@ -55,6 +57,8 @@ class RecipeCard extends React.Component {
                                 value={difficultyLevel}
                                 max={3}
                                 readOnly
+                                icon={<Icon icon={chefHat} color="gold" />}
+                                emptyIcon={<Icon icon={chefHat} color="gray" />}
                             />
                         </div>
 
