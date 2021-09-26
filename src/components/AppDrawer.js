@@ -22,6 +22,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Icon } from '@iconify/react';
 import chefHat from '@iconify/icons-mdi/chef-hat';
+import './styles/AppDrawer.css';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -110,7 +111,7 @@ export default function PersistentDrawerLeft(props) {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box className="AppDrawer" sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -164,7 +165,7 @@ export default function PersistentDrawerLeft(props) {
                     Filter by Difficulty
                 </ListSubheader>
                 <ButtonGroup
-                    className="justify-content-between"
+                    className="difficulty-level-buttons justify-content-between"
                     size="large"
                     variant="text"
                     aria-label="outlined primary button group"
@@ -175,8 +176,11 @@ export default function PersistentDrawerLeft(props) {
                         onClick={filterByDifficulty}
                         style={{ borderColor: '#C6C6C6' }}
                         value={1}
+                        id="difficulty-1"
                     >
-                        <Icon icon={chefHat} color="gold" />
+                        <label htmlFor="difficulty-1">
+                            <Icon icon={chefHat} color="gold" />
+                        </label>
                     </Button>
                     <Button
                         style={{ borderColor: '#C6C6C6' }}
@@ -184,9 +188,12 @@ export default function PersistentDrawerLeft(props) {
                         key="difficulty-2"
                         value={2}
                         onClick={filterByDifficulty}
+                        id="difficulty-2"
                     >
-                        <Icon icon={chefHat} color="gold" />
-                        <Icon icon={chefHat} color="gold" />
+                        <label htmlFor="difficulty-2">
+                            <Icon icon={chefHat} color="gold" />
+                            <Icon icon={chefHat} color="gold" />
+                        </label>
                     </Button>
                     <Button
                         className="d-flex w-100 justify-content-center mx-auto px-0"
@@ -194,10 +201,13 @@ export default function PersistentDrawerLeft(props) {
                         key="difficulty-3"
                         style={{ borderColor: '#C6C6C6' }}
                         onClick={filterByDifficulty}
+                        id="difficulty-3"
                     >
-                        <Icon icon={chefHat} color="gold" />
-                        <Icon icon={chefHat} color="gold" />
-                        <Icon icon={chefHat} color="gold" />
+                        <label htmlFor="difficulty-3">
+                            <Icon icon={chefHat} color="gold" />
+                            <Icon icon={chefHat} color="gold" />
+                            <Icon icon={chefHat} color="gold" />
+                        </label>
                     </Button>
                 </ButtonGroup>
 
