@@ -15,7 +15,7 @@ class App extends React.Component {
             recipes: [
                 {
                     title: 'Wacky Mac',
-                    url: '#',
+                    url: 'https://www.google.com',
                     comment: '250g butter is enough',
                     tags: ['simple', 'pasta'],
                     id: uuidv4(),
