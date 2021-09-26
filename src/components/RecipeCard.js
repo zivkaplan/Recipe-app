@@ -15,8 +15,8 @@ class RecipeCard extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
     filterByTag(e) {
-        const q = e.target.innerText;
-        this.props.filterByTag(q);
+        const filter = { type: 'tag', value: e.target.innerText };
+        this.props.setFilter(filter);
     }
 
     handleDelete() {

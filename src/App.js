@@ -11,7 +11,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             recipeFormOpen: false,
-            filter: null,
+            filter: { filterBy: null, value: null },
             recipes: [
                 {
                     title: 'Wacky Mac',
@@ -35,14 +35,14 @@ class App extends React.Component {
         this.openRecipeForm = this.openRecipeForm.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.saveRecipe = this.saveRecipe.bind(this);
-        this.filterByTag = this.filterByTag.bind(this);
+        this.setFilter = this.setFilter.bind(this);
     }
 
     componentDidMount() {
         // get recipes from DB
     }
 
-    filterByTag(filter) {
+    setFilter(filter) {
         if (this.state.recipeFormOpen) {
             this.setState({ recipeFormOpen: false });
         }
@@ -72,8 +72,18 @@ class App extends React.Component {
             ...new Set(recipes.map((recipe) => recipe.tags).flat()),
         ];
         const filteredRecipes = () => {
-            if (!filter) return recipes;
-            return recipes.filter((recipe) => recipe.tags.includes(filter));
+            if (!filter.value) return recipes;
+            if (filter.type === 'difficulty') {
+                return recipes.filter(
+                    (recipe) =>
+                        recipe.difficultyLevel === parseInt(filter.value)
+                );
+            }
+            if (filter.type === 'tag') {
+                return recipes.filter((recipe) =>
+                    recipe.tags.includes(filter.value)
+                );
+            }
         };
         const mainPage = recipeFormOpen ? (
             <RecipeCardForm saveRecipe={this.saveRecipe} />
@@ -81,16 +91,16 @@ class App extends React.Component {
             <RecipeCardsList
                 openRecipeForm={this.openRecipeForm}
                 deleteRecipe={this.deleteRecipe}
-                filterByTag={this.filterByTag}
+                setFilter={this.setFilter}
                 recipes={filteredRecipes()}
             />
         );
         return (
             <div>
                 <AppDrawer
-                    filteredTag={filter}
+                    filteredTag={filter.value}
                     recipeFormOpen={recipeFormOpen}
-                    filterByTag={this.filterByTag}
+                    setFilter={this.setFilter}
                     allTags={allTags}
                 />
                 {mainPage}

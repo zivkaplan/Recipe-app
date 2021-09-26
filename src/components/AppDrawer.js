@@ -80,10 +80,25 @@ export default function PersistentDrawerLeft(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const setFilterSearch = (e) => {
-        const q =
-            e.target.innerText === 'all recipes' ? null : e.target.innerText;
-        props.filterByTag(q);
+    const filterByTag = (e) => {
+        const filter = {
+            type: 'tag',
+            value:
+                e.target.innerText === 'all recipes'
+                    ? null
+                    : e.target.innerText,
+        };
+        props.setFilter(filter);
+        setOpen(false);
+    };
+
+    const filterByDifficulty = (e) => {
+        console.log(e.target.value);
+        const filter = {
+            type: 'difficulty',
+            value: e.target.value,
+        };
+        props.setFilter(filter);
         setOpen(false);
     };
 
@@ -137,11 +152,7 @@ export default function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem
-                        button
-                        key="all recipes"
-                        onClick={setFilterSearch}
-                    >
+                    <ListItem button key="all recipes" onClick={filterByTag}>
                         <ListItemIcon>
                             <AppsIcon />
                         </ListItemIcon>
@@ -161,8 +172,9 @@ export default function PersistentDrawerLeft(props) {
                     <Button
                         className="d-flex w-100 justify-content-center mx-auto px-0"
                         key="difficulty-1"
-                        onClick={setFilterSearch}
+                        onClick={filterByDifficulty}
                         style={{ borderColor: '#C6C6C6' }}
+                        value={1}
                     >
                         <Icon icon={chefHat} color="gold" />
                     </Button>
@@ -170,16 +182,18 @@ export default function PersistentDrawerLeft(props) {
                         style={{ borderColor: '#C6C6C6' }}
                         className="d-flex w-100 justify-content-center mx-auto px-0"
                         key="difficulty-2"
-                        onClick={setFilterSearch}
+                        value={2}
+                        onClick={filterByDifficulty}
                     >
                         <Icon icon={chefHat} color="gold" />
                         <Icon icon={chefHat} color="gold" />
                     </Button>
                     <Button
                         className="d-flex w-100 justify-content-center mx-auto px-0"
+                        value={3}
                         key="difficulty-3"
                         style={{ borderColor: '#C6C6C6' }}
-                        onClick={setFilterSearch}
+                        onClick={filterByDifficulty}
                     >
                         <Icon icon={chefHat} color="gold" />
                         <Icon icon={chefHat} color="gold" />
@@ -190,7 +204,7 @@ export default function PersistentDrawerLeft(props) {
                 <Divider />
                 <List>
                     {allTags.map((text, index) => (
-                        <ListItem button key={text} onClick={setFilterSearch}>
+                        <ListItem button key={text} onClick={filterByTag}>
                             <ListItemIcon>
                                 <LabelIcon />
                             </ListItemIcon>

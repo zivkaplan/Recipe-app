@@ -20,7 +20,7 @@ class RecipeCardsList extends React.Component {
                 key={recipe.id}
                 deleteRecipe={deleteRecipe}
                 difficultyLevel={recipe.difficultyLevel}
-                filterByTag={this.props.filterByTag}
+                setFilter={this.props.setFilter}
             />
         ));
         return (
