@@ -81,6 +81,7 @@ export default function PersistentDrawerLeft(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
     const filterByTag = (e) => {
         const filter = {
             type: 'tag',
@@ -226,8 +227,10 @@ export default function PersistentDrawerLeft(props) {
                         </label>
                     </Button>
                 </ButtonGroup>
-
                 <Divider />
+                <ListSubheader component="div" id="filter-by-difficulty">
+                    Filter by Tag
+                </ListSubheader>
                 <List>
                     {allTags.map((text, index) => (
                         <ListItem button key={text} onClick={filterByTag}>

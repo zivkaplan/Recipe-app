@@ -5,6 +5,8 @@ import RecipeCardForm from './components/RecipeCardForm';
 import RecipeCardsList from './components/RecipeCardsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import AppDrawer from './components/AppDrawer';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -117,24 +119,27 @@ class App extends React.Component {
                 );
             }
         };
-        const mainPage =
-            recipeFormOpen || editMode ? (
-                <RecipeCardForm
-                    saveRecipe={this.saveRecipe}
-                    recipeToEdit={{ ...this.getRecipeIfEditing(editMode) }}
-                />
-            ) : (
-                <RecipeCardsList
-                    openEditRecipe={this.openEditRecipe}
-                    openRecipeForm={this.openRecipeForm}
-                    deleteRecipe={this.deleteRecipe}
-                    setFilter={this.setFilter}
-                    recipes={filteredRecipes().sort(
-                        (firstEl, secondEl) =>
-                            firstEl.addedDate < secondEl.addedDate
-                    )}
-                />
-            );
+
+        const recipesListPage = (routeProps) => (
+            <RecipeCardsList
+                openEditRecipe={this.openEditRecipe}
+                openRecipeForm={this.openRecipeForm}
+                deleteRecipe={this.deleteRecipe}
+                setFilter={this.setFilter}
+                recipes={filteredRecipes().sort(
+                    (firstEl, secondEl) =>
+                        firstEl.addedDate < secondEl.addedDate
+                )}
+            />
+        );
+
+        const recipeFormPage = (routeProps) => (
+            <RecipeCardForm
+                saveRecipe={this.saveRecipe}
+                recipeToEdit={{ ...this.getRecipeIfEditing(editMode) }}
+            />
+        );
+
         return (
             <div>
                 <AppDrawer
@@ -143,7 +148,10 @@ class App extends React.Component {
                     setFilter={this.setFilter}
                     allTags={allTags}
                 />
-                {mainPage}
+                <Switch>
+                    <Route exact path="/" render={recipesListPage} />
+                    <Route exact path="/new" render={recipeFormPage} />
+                </Switch>
             </div>
         );
     }
