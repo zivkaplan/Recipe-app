@@ -9,7 +9,7 @@ class RecipeCardsList extends React.Component {
         this.state = {};
     }
     render() {
-        const { recipes, deleteRecipe } = this.props;
+        const { recipes, deleteRecipe, setFilter, openEditRecipe } = this.props;
         const savedRecipes = recipes.map((recipe) => (
             <RecipeCard
                 title={recipe.title}
@@ -20,7 +20,8 @@ class RecipeCardsList extends React.Component {
                 key={recipe.id}
                 deleteRecipe={deleteRecipe}
                 difficultyLevel={recipe.difficultyLevel}
-                setFilter={this.props.setFilter}
+                setFilter={setFilter}
+                openEditRecipe={openEditRecipe}
             />
         ));
         return (

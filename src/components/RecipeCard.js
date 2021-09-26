@@ -13,6 +13,7 @@ class RecipeCard extends React.Component {
         this.state = {};
         this.filterByTag = this.filterByTag.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
     filterByTag(e) {
         const filter = { type: 'tag', value: e.target.innerText };
@@ -22,7 +23,9 @@ class RecipeCard extends React.Component {
     handleDelete() {
         this.props.deleteRecipe(this.props.id);
     }
-
+    handleEdit() {
+        this.props.openEditRecipe(this.props.id);
+    }
     render() {
         const { title, url, comment, tags, difficultyLevel } = this.props;
         const clickableTags = tags.map((tag, idx) => (
@@ -67,7 +70,10 @@ class RecipeCard extends React.Component {
                                         {comment}
                                     </p>
                                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <Button variant="outline-warning">
+                                        <Button
+                                            variant="outline-warning"
+                                            onClick={this.handleEdit}
+                                        >
                                             <EditIcon />
                                         </Button>
                                         <Button

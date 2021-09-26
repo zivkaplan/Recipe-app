@@ -11,6 +11,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             recipeFormOpen: false,
+            editMode: null, //or ID
             filter: { filterBy: null, value: null },
             recipes: [
                 {
@@ -20,6 +21,7 @@ class App extends React.Component {
                     tags: ['simple', 'pasta'],
                     id: uuidv4(),
                     difficultyLevel: 2,
+                    dateAdded: Date.now() - 6000,
                 },
                 {
                     title: 'Bread and Butter',
@@ -28,11 +30,15 @@ class App extends React.Component {
                     tags: ['simple', 'quick', 'bread'],
                     id: uuidv4(),
                     difficultyLevel: 1,
+                    dateAdded: Date.now(),
                 },
             ],
         };
 
+        this.getRecipeIfEditing = this.getRecipeIfEditing.bind(this);
+        this.openEditRecipe = this.openEditRecipe.bind(this);
         this.openRecipeForm = this.openRecipeForm.bind(this);
+        this.closeRecipeForm = this.closeRecipeForm.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.saveRecipe = this.saveRecipe.bind(this);
         this.setFilter = this.setFilter.bind(this);
@@ -43,9 +49,7 @@ class App extends React.Component {
     }
 
     setFilter(filter) {
-        if (this.state.recipeFormOpen) {
-            this.setState({ recipeFormOpen: false });
-        }
+        this.closeRecipeForm();
         this.setState({ filter });
     }
 
@@ -53,11 +57,39 @@ class App extends React.Component {
         this.setState({ recipeFormOpen: true });
     }
 
+    closeRecipeForm() {
+        this.setState({ editMode: false, recipeFormOpen: false });
+    }
+
+    openEditRecipe(id) {
+        this.setState({ editMode: id });
+    }
+
     saveRecipe(newRecipe) {
+        if (!newRecipe.id) {
+            newRecipe.id = uuidv4();
+            this.setState({
+                recipes: [...this.state.recipes, newRecipe],
+                recipeFormOpen: false,
+            });
+            return;
+        }
+        //update existing recipe
         this.setState({
-            recipes: [...this.state.recipes, newRecipe],
-            recipeFormOpen: false,
+            recipes: [
+                ...this.state.recipes.map((oldRecipe) => {
+                    if (oldRecipe.id === newRecipe.id) {
+                        return newRecipe;
+                    }
+                    return oldRecipe;
+                }),
+            ],
+            editMode: null,
         });
+    }
+    getRecipeIfEditing(id) {
+        if (!id) return false;
+        return this.state.recipes.find((r) => r.id === id);
     }
 
     deleteRecipe(id) {
@@ -67,7 +99,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { recipes, filter, recipeFormOpen } = this.state;
+        const { recipes, filter, recipeFormOpen, editMode } = this.state;
         const allTags = [
             ...new Set(recipes.map((recipe) => recipe.tags).flat()),
         ];
@@ -85,16 +117,24 @@ class App extends React.Component {
                 );
             }
         };
-        const mainPage = recipeFormOpen ? (
-            <RecipeCardForm saveRecipe={this.saveRecipe} />
-        ) : (
-            <RecipeCardsList
-                openRecipeForm={this.openRecipeForm}
-                deleteRecipe={this.deleteRecipe}
-                setFilter={this.setFilter}
-                recipes={filteredRecipes()}
-            />
-        );
+        const mainPage =
+            recipeFormOpen || editMode ? (
+                <RecipeCardForm
+                    saveRecipe={this.saveRecipe}
+                    recipeToEdit={{ ...this.getRecipeIfEditing(editMode) }}
+                />
+            ) : (
+                <RecipeCardsList
+                    openEditRecipe={this.openEditRecipe}
+                    openRecipeForm={this.openRecipeForm}
+                    deleteRecipe={this.deleteRecipe}
+                    setFilter={this.setFilter}
+                    recipes={filteredRecipes().sort(
+                        (firstEl, secondEl) =>
+                            firstEl.addedDate < secondEl.addedDate
+                    )}
+                />
+            );
         return (
             <div>
                 <AppDrawer

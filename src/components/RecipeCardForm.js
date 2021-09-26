@@ -14,18 +14,26 @@ class RecipeCardForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.title || '',
-            url: this.props.url || '',
-            comment: this.props.comment || '',
-            tags: this.props.tags || [],
-            newTag: '',
+            id: null,
+            dateAdded: '',
+            title: '',
+            url: '',
+            comment: '',
+            tags: [],
             difficultyLevel: 0,
+            newTag: '',
             invalidForm: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTag = this.addTag.bind(this);
         this.deleteTag = this.deleteTag.bind(this);
+    }
+    componentDidMount() {
+        const { recipeToEdit } = this.props;
+        if (recipeToEdit) {
+            this.setState({ ...recipeToEdit });
+        }
     }
 
     handleChange(e) {
@@ -34,12 +42,21 @@ class RecipeCardForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const { title, url, comment, tags } = this.state;
+        const { title, url, comment, tags, id, dateAdded, difficultyLevel } =
+            this.state;
         if (!title) {
             this.setState({ invalidForm: true });
             return;
         }
-        const newRecipe = { title, url, comment, tags };
+        const newRecipe = {
+            title,
+            url,
+            comment,
+            tags,
+            id,
+            dateAdded,
+            difficultyLevel,
+        };
         this.props.saveRecipe(newRecipe);
     }
 
@@ -75,6 +92,7 @@ class RecipeCardForm extends React.Component {
                 {tag}
             </Badge>
         ));
+
         return (
             <div>
                 <Container>
