@@ -98,7 +98,7 @@ class App extends React.Component {
         return (
             <div>
                 <AppDrawer
-                    filteredTag={filter.value}
+                    filter={filter}
                     recipeFormOpen={recipeFormOpen}
                     setFilter={this.setFilter}
                     allTags={allTags}

@@ -84,17 +84,20 @@ export default function PersistentDrawerLeft(props) {
     const filterByTag = (e) => {
         const filter = {
             type: 'tag',
-            value:
-                e.target.innerText === 'all recipes'
-                    ? null
-                    : e.target.innerText,
+            value: e.target.innerText,
         };
         props.setFilter(filter);
         setOpen(false);
     };
-
+    const clearFilter = (e) => {
+        const filter = {
+            type: null,
+            value: null,
+        };
+        props.setFilter(filter);
+        setOpen(false);
+    };
     const filterByDifficulty = (e) => {
-        console.log(e.target.value);
         const filter = {
             type: 'difficulty',
             value: e.target.value,
@@ -103,11 +106,24 @@ export default function PersistentDrawerLeft(props) {
         setOpen(false);
     };
 
-    const { allTags, recipeFormOpen, filteredTag } = props;
+    const { allTags, recipeFormOpen, filter } = props;
     const getTitle = () => {
-        if (recipeFormOpen) return 'Add Recipe';
-        if (filteredTag) return `#${filteredTag}`;
-        return 'My Saved Recipes';
+        let title;
+        if (recipeFormOpen) title = 'Add Recipe';
+        else if (filter.type === 'tag') title = `#${filter.value}`;
+        else if (filter.type === 'difficulty') {
+            title = ['#'];
+            for (let i = 1; i <= 3; i++) {
+                if (i <= filter.value) {
+                    title.push(<Icon icon={chefHat} color="gold" />);
+                } else {
+                    title.push(<Icon icon={chefHat} color="grey" />);
+                }
+            }
+        } else {
+            title = 'My Saved Recipes';
+        }
+        return title;
     };
 
     return (
@@ -153,7 +169,7 @@ export default function PersistentDrawerLeft(props) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem button key="all recipes" onClick={filterByTag}>
+                    <ListItem button key="all recipes" onClick={clearFilter}>
                         <ListItemIcon>
                             <AppsIcon />
                         </ListItemIcon>
