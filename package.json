@@ -1,0 +1,36 @@
+{
+    "name": "recipe-app",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "scripts": {
+        "client-install": "npm i --prefix client",
+        "start": "node server.js",
+        "server": "nodemon server.js",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "concurrently": "^6.2.2"
+    }
+}
