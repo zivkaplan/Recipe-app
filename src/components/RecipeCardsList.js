@@ -2,7 +2,6 @@ import React from 'react';
 import RecipeCard from './RecipeCard';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from 'react-router-dom';
 
 class RecipeCardsList extends React.Component {
     constructor(props) {
@@ -28,20 +27,18 @@ class RecipeCardsList extends React.Component {
         return (
             <div>
                 {savedRecipes}
-                <Link to="/new">
-                    <Fab
-                        onClick={this.props.openRecipeForm}
-                        style={{
-                            position: 'fixed',
-                            bottom: 'min(10vh, 10vw)',
-                            right: 'min(10vh, 10vw)',
-                        }}
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <AddIcon />
-                    </Fab>
-                </Link>
+                <Fab
+                    onClick={this.props.openRecipeForm}
+                    style={{
+                        position: 'fixed',
+                        bottom: 'min(10vh, 10vw)',
+                        right: 'min(10vh, 10vw)',
+                    }}
+                    color="primary"
+                    aria-label="add"
+                >
+                    <AddIcon />
+                </Fab>
             </div>
         );
     }

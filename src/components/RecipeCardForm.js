@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Icon } from '@iconify/react';
 import chefHat from '@iconify/icons-mdi/chef-hat';
 import Alert from '@mui/material/Alert';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 class RecipeCardForm extends React.Component {
     constructor(props) {
@@ -26,6 +27,8 @@ class RecipeCardForm extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.addTag = this.addTag.bind(this);
         this.deleteTag = this.deleteTag.bind(this);
     }
@@ -58,6 +61,13 @@ class RecipeCardForm extends React.Component {
             difficultyLevel,
         };
         this.props.saveRecipe(newRecipe);
+    }
+    handleClose() {
+        this.props.closeRecipeForm();
+    }
+
+    handleKeyUp(e) {
+        if (e.keyCode === 13) this.addTag();
     }
 
     addTag(e) {
@@ -99,7 +109,7 @@ class RecipeCardForm extends React.Component {
                     <Card>
                         <Card.Body>
                             <Card.Title>Add Recipe</Card.Title>
-                            <Form onSubmit={this.handleSubmit}>
+                            <Form>
                                 {invalidForm ? (
                                     <Alert severity="warning">
                                         Title field cannot be empty
@@ -171,6 +181,7 @@ class RecipeCardForm extends React.Component {
                                         onChange={this.handleChange}
                                         name="newTag"
                                         value={newTag}
+                                        onKeyUp={this.handleKeyUp}
                                     />
                                     <Button
                                         style={{ margin: '8px' }}
@@ -184,8 +195,20 @@ class RecipeCardForm extends React.Component {
                                     {renderedTags}
                                 </div>
                                 <div className="d-grid gap-2">
-                                    <Button variant="success" type="submit">
+                                    <Button
+                                        variant="success"
+                                        size="large"
+                                        type="button"
+                                        onClick={this.handleSubmit}
+                                    >
                                         <SaveIcon />
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        size="large"
+                                        onClick={this.handleClose}
+                                    >
+                                        <ArrowBackIcon />
                                     </Button>
                                 </div>
                             </Form>

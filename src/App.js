@@ -5,8 +5,6 @@ import RecipeCardForm from './components/RecipeCardForm';
 import RecipeCardsList from './components/RecipeCardsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import AppDrawer from './components/AppDrawer';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -64,31 +62,32 @@ class App extends React.Component {
     }
 
     openEditRecipe(id) {
-        this.setState({ editMode: id });
+        this.setState({ editMode: id, recipeFormOpen: true });
     }
 
     saveRecipe(newRecipe) {
+        // add new recipe
         if (!newRecipe.id) {
             newRecipe.id = uuidv4();
             this.setState({
                 recipes: [...this.state.recipes, newRecipe],
-                recipeFormOpen: false,
             });
-            return;
+        } else {
+            //update existing recipe
+            this.setState({
+                recipes: [
+                    ...this.state.recipes.map((oldRecipe) => {
+                        if (oldRecipe.id === newRecipe.id) {
+                            return newRecipe;
+                        }
+                        return oldRecipe;
+                    }),
+                ],
+            });
         }
-        //update existing recipe
-        this.setState({
-            recipes: [
-                ...this.state.recipes.map((oldRecipe) => {
-                    if (oldRecipe.id === newRecipe.id) {
-                        return newRecipe;
-                    }
-                    return oldRecipe;
-                }),
-            ],
-            editMode: null,
-        });
+        return this.closeRecipeForm();
     }
+
     getRecipeIfEditing(id) {
         if (!id) return false;
         return this.state.recipes.find((r) => r.id === id);
@@ -120,7 +119,7 @@ class App extends React.Component {
             }
         };
 
-        const recipesListPage = (routeProps) => (
+        const renderRecipesListPage = (routeProps) => (
             <RecipeCardsList
                 openEditRecipe={this.openEditRecipe}
                 openRecipeForm={this.openRecipeForm}
@@ -133,8 +132,9 @@ class App extends React.Component {
             />
         );
 
-        const recipeFormPage = (routeProps) => (
+        const renderRecipeFormPage = (routeProps) => (
             <RecipeCardForm
+                closeRecipeForm={this.closeRecipeForm}
                 saveRecipe={this.saveRecipe}
                 recipeToEdit={{ ...this.getRecipeIfEditing(editMode) }}
             />
@@ -148,10 +148,10 @@ class App extends React.Component {
                     setFilter={this.setFilter}
                     allTags={allTags}
                 />
-                <Switch>
-                    <Route exact path="/" render={recipesListPage} />
-                    <Route exact path="/new" render={recipeFormPage} />
-                </Switch>
+
+                {recipeFormOpen
+                    ? renderRecipeFormPage()
+                    : renderRecipesListPage()}
             </div>
         );
     }
