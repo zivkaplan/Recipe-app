@@ -48,8 +48,7 @@ class RecipeCardForm extends React.Component {
         const { title, url, comment, tags, id, dateAdded, difficultyLevel } =
             this.state;
         if (!title) {
-            this.setState({ invalidForm: true });
-            return;
+            return this.setState({ invalidForm: true });
         }
         const newRecipe = {
             title,

@@ -29,7 +29,13 @@ class RecipeCard extends React.Component {
     render() {
         const { title, url, comment, tags, difficultyLevel } = this.props;
         const clickableTags = tags.map((tag, idx) => (
-            <Badge pill bg="primary" key={idx} onClick={this.filterByTag}>
+            <Badge
+                pill
+                className="mx-1"
+                bg="primary"
+                key={idx}
+                onClick={this.filterByTag}
+            >
                 {tag}
             </Badge>
         ));

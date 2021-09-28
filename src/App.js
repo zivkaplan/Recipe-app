@@ -5,11 +5,12 @@ import RecipeCardForm from './components/RecipeCardForm';
 import RecipeCardsList from './components/RecipeCardsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import AppDrawer from './components/AppDrawer';
-
+import LoginPage from './components/LoginPage';
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoggedIn: false,
             recipeFormOpen: false,
             editMode: null, //or ID
             filter: { filterBy: null, value: null },
@@ -42,12 +43,15 @@ class App extends React.Component {
         this.deleteRecipe = this.deleteRecipe.bind(this);
         this.saveRecipe = this.saveRecipe.bind(this);
         this.setFilter = this.setFilter.bind(this);
+        this.login = this.login.bind(this);
     }
 
     componentDidMount() {
         // get recipes from DB
     }
-
+    login() {
+        this.setState({ isLoggedIn: true });
+    }
     setFilter(filter) {
         this.closeRecipeForm();
         this.setState({ filter });
@@ -119,7 +123,7 @@ class App extends React.Component {
             }
         };
 
-        const renderRecipesListPage = (routeProps) => (
+        const renderRecipesListPage = (
             <RecipeCardsList
                 openEditRecipe={this.openEditRecipe}
                 openRecipeForm={this.openRecipeForm}
@@ -132,28 +136,32 @@ class App extends React.Component {
             />
         );
 
-        const renderRecipeFormPage = (routeProps) => (
+        const renderRecipeFormPage = (
             <RecipeCardForm
                 closeRecipeForm={this.closeRecipeForm}
                 saveRecipe={this.saveRecipe}
                 recipeToEdit={{ ...this.getRecipeIfEditing(editMode) }}
             />
         );
-
-        return (
-            <div>
-                <AppDrawer
-                    filter={filter}
-                    recipeFormOpen={recipeFormOpen}
-                    setFilter={this.setFilter}
-                    allTags={allTags}
-                />
-
-                {recipeFormOpen
-                    ? renderRecipeFormPage()
-                    : renderRecipesListPage()}
-            </div>
-        );
+        const renderPage = () => {
+            if (!this.state.isLoggedIn) {
+                return <LoginPage login={this.login} />;
+            }
+            return (
+                <div>
+                    <AppDrawer
+                        filter={filter}
+                        recipeFormOpen={recipeFormOpen}
+                        setFilter={this.setFilter}
+                        allTags={allTags}
+                    />
+                    {recipeFormOpen
+                        ? renderRecipeFormPage
+                        : renderRecipesListPage}{' '}
+                </div>
+            );
+        };
+        return <div>{renderPage()}</div>;
     }
 }
 export default App;
