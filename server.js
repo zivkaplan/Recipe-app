@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo');
 const path = require('path');
 const app = express();
 const defaultRouter = require('./routes/defaultRouter');
+const recipeRoute = require('./routes/api/Recipes');
 
 // settings
 const port = process.env.PORT || 5000;
@@ -63,6 +64,7 @@ const mongooseConfig = (function () {
 })();
 
 // routes
+app.use('/recipe', recipeRoute);
 app.use('/', defaultRouter);
 
 app.listen(port, (req, res) => {
