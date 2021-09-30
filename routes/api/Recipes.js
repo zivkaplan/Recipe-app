@@ -4,7 +4,7 @@ const Recipe = require('../../models/recipe');
 
 const router = express.Router();
 
-// @route POST api/countries
+// @route POST api/recipes
 // @desc add Recipe
 // @access Public
 router.post('/', async (req, res) => {
@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// @route PUT api/countries/edit/:id
+// @route PUT api/recipes/edit/:id
 // @desc edit a Recipe
 // @access Public
 router.put('/edit/:id', async (req, res) => {
@@ -35,7 +35,7 @@ router.put('/edit/:id', async (req, res) => {
     }
 });
 
-// @route PUT api/countries/reorder/
+// @route PUT api/recipes/reorder/
 // @desc edit a Recipe's index
 // @access Public
 router.put('/reorder', async (req, res) => {
@@ -50,7 +50,7 @@ router.put('/reorder', async (req, res) => {
     }
 });
 
-// @route DELETE api/countries/:id
+// @route DELETE api/recipes/:id
 // @desc delete a Recipe
 // @access Public
 router.delete('/:id', async (req, res) => {
@@ -63,7 +63,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// @route GET api/countries
+// @route GET api/recipes
 // @desc get all countries
 // @access Public
 router.get('/', async (req, res) => {
