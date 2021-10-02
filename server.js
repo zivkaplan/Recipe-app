@@ -13,7 +13,7 @@ const recipeRoute = require('./routes/api/Recipes');
 
 // settings
 const port = process.env.PORT || 5000;
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/_____';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/recipe-app';
 const secret = process.env.SECRET || 'secret';
 
 // configuration
@@ -64,7 +64,7 @@ const mongooseConfig = (function () {
 })();
 
 // routes
-app.use('/recipe', recipeRoute);
+app.use('/api/recipes', recipeRoute);
 app.use('/', defaultRouter);
 
 app.listen(port, (req, res) => {

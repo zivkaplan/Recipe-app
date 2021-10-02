@@ -64,11 +64,11 @@ router.delete('/:id', async (req, res) => {
 });
 
 // @route GET api/recipes
-// @desc get all countries
+// @desc get all recipes
 // @access Public
 router.get('/', async (req, res) => {
-    const countries = await Recipe.find().sort({ index: 1 });
-    res.json(countries);
+    const recipes = await Recipe.find().sort({ index: 1 });
+    res.json(recipes);
 });
 
 module.exports = router;
